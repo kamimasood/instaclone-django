@@ -1,0 +1,67 @@
+
+<div class="card mb-4 shadow-sm insta-post">
+
+    <div class="card-body d-flex align-items-center">
+        <a href="{% url 'profile' post.author.username %}">
+            <img src="{{ post.author.profile.avatar.url }}" 
+            class="rounded-circle me-2"
+            style="width: 40px; height: 40px; object-fit: cover;">
+        </a>
+
+        <a href="{% url 'profile' post.author.username %}"
+            class="fw-bold text-dark text-decoration-none">
+                {{ post.author.username }}
+        </a>
+    </div>
+
+    <a href="{% url 'posts:post_detail' post.id %}"
+        class="text-decoration-none">
+        {% if post.media_type == "image" %}
+            <img src="{{ post.image.url }}" class="img-fluid">
+        {% elif post.media_type == "video" %}
+            <video controls class="img-fluid" muted>
+                <source src="{{ post.video.url }}">
+            </video>
+        {% endif %}
+    </a>
+
+    <!-- Actions -->
+    <div class="card-body d-flex align-items-center">
+        {% include 'partials/like_button.html' %}
+        <a href="{% url 'posts:post_detail' post.id %}"
+            class="ms-3 text-dark">
+            <i class="bi bi-chat fs-4 ms-3"></i>
+        </a>
+    </div>
+
+    <div class="px-3 mb-1">
+        <strong>{{ post.likes.count }}</strong>
+    </div>
+
+    <div class="px-3 mb-1">
+        <strong>{{ post.likes.count }}</strong> likes
+    </div>
+
+    <div class="px-3 mb-2">
+        <a href="{% url 'posts:post_detail' post.id %}"
+            class="text-dark text-decoration-none">
+            <strong>{{ post.author.username }}</strong>
+                {{ post.caption }}
+        </a>
+    </div>
+
+    <div class="px-3 mb-1">
+        <a href="{% url 'posts:post_detail' post.id %}"
+            class="text-dark text-decoration-none">
+            {% include "partials/comments_list.html" %}
+        </a>
+    </div>
+
+    <div class="px-3 mb-2">
+        <a href="{% url 'posts:post_detail' post.id %}"
+            class="text-muted small text-decoration-none">
+            View All {{ post.comments.count }} comments
+        </a>
+    </div>
+    
+</div>

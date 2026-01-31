@@ -1,0 +1,11 @@
+<button
+    class="btn p-0 border-0 bg-transparent like-btn"
+    data-post-id="{{ post.id }}"
+    area-label="Like">
+
+    {% if user.is_authenticated and post.is_liked_by %}
+        <i class="bi bi-heart-fill text-danger fs-4"></i>
+    {% else %}
+        <i class="bi bi-heart-fill fs-4"></i>
+    {% endif %}
+</button>

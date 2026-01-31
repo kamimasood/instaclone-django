@@ -1,0 +1,47 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Feed{% endblock %}
+
+{% block content %}
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            {% if posts %}
+                {% for post in posts %}
+                    {% include "posts/post_card.html" with post=post %}
+                {% endfor %}
+            {% else %}
+                <div class="empty-feed text-center mt-5">
+                    <h4 class="text-muted">No posts yet</h4>
+                    <p class="text-muted">Be the first to share something!</p>
+                    <a href="{% url 'posts:create_post' %}" class="btn btn-primary">
+                        Create Post
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-3 d-none d-md-block">
+            <div class="suggestions-box p-3 rounded shadow-sm bg-white">
+                <h6 class="text-muted mb-3">Suggested for you</h6>
+
+                {% for s in suggestions %}
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ s.profile.avatar.url }}" class="rounded-circle me-2" width="40" height="40">
+                        <div class="flex-grow-1">
+                            <a href="{% url 'profile' s.username %}" class="fw-bold">{{ s.username }}</a><br>
+                            <small class="text-muted">{{ s.profile.get_display_name }}</small>
+                        </div>
+                        <a href="{% url 'toggle_follow' s.username %}" class="btn btn-sm btn-outline-primary">
+                            Follow 
+                        </a>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">No suggestions available.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

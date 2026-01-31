@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+    <h4 class="mb-3">Messages</h4>
+
+    {% for message in messages %}
+        <a href="{% url 'conversation' message.sender.username %}"
+            class="d-flex align-items-center mb-3 text-decoration-none text-dark">
+        
+            <img src="{{ message.sender.profile.avatar.url }}" 
+                class="rounded-circle me-3"
+                width="45" height="45">
+
+                <div>
+                    <strong>{{ messages.sender.username }}</strong><br>
+                    <small class="text-muted">{{ message.text|truncatechars:30 }}</small>
+                </div>
+        </a>
+    {% empty %}
+        <p class="text-muted">No messages yet.</p>
+    {% endfor %}
+{% endblock %}

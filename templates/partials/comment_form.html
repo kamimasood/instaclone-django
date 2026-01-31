@@ -1,0 +1,12 @@
+{% if user.is_authenticated %}
+    <form method="post" 
+    action="{% url 'add_comment' post.id %}" 
+    class="px-3">
+        {% csrf_token %}
+        <input type="text" 
+        name="text" 
+        class="form-control" 
+        placeholder="Add a comment..." 
+        required>
+    </form>
+{% endif %}

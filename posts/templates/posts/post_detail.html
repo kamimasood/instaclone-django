@@ -1,0 +1,65 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Post by {{ post.author.username }}{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <!-- Reuse the same card structure -->
+            <div class="card shadow-sm">
+
+                <!-- Header -->
+                 <div class="card-body d-flex align-items-center">
+                    <a href="{% url 'profile' post.author.username %}">
+                        <img src="{{ post.author.profile.avatar.url }}"
+                            class="rounded-circle me-2"
+                            width="40" height="40">
+                    </a>
+                    <a href="{% url 'profile' post.author.username %}"
+                        class="fw-bold text-dark text-decoration-none">
+                        {{ post.author.username }}
+                    </a>
+
+                    {% if user == post.author %}
+                        <form method="post"
+                            action="{% url 'posts:delete_post' post.id %}"
+                            class="ms-auto">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+
+                        </form>
+                    {% endif %}
+                </div>
+
+                {% if post.media_type == "image" %}
+                    <img src="{{ post.image.url }}" class="img-fluid">
+                {% elif post.media_type == "video" %}
+                    <video controls class="img-fluid">
+                        <source src="{{ post.video.url }}">
+                    </video>
+                {% endif %}
+
+                <!-- Actions -->
+                <div class="card-body d-flex align-items-center">
+                    {% include "partials/like_button.html" %}
+                </div>
+
+                <!-- Likes -->
+                 <div class="px-3 mb-2">
+                    <strong>{{ post.likes.count }}</strong>
+                 </div>
+
+                 <!-- Caption -->
+                <div>
+                    <strong>{{ post.author.username }}</strong>
+                    {{ post.caption }}
+                </div>
+
+                {% include "partials/comments_list.html" %}
+                {% include "partials/comment_form.html" %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

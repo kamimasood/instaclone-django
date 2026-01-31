@@ -1,0 +1,29 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Chat with {{ other_user.username }}{% endblock %}
+
+{% block content %}
+
+    <h5 class="mb-3">{{ other_user.username }}</h5>
+
+    <div class="border rounded p-3 mb-3"
+        style="height: 400px; overflow-y: auto;">
+            {% for message in messages %}
+                <div class="{% if message.sender == user %}text-end{% endif %}">
+                    <span class="badge bg-{% if message.sender == user %}primary{% else %}secondary{% endif %}">
+                        {{ message.text }}
+                    </span>
+                </div>
+            {% endfor %}
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text"
+                name="text"
+                class="form-control"
+                placeholder="Message..."
+            required>
+        </form>
+        
+{% endblock %}

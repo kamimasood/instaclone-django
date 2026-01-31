@@ -1,0 +1,26 @@
+<div class="comments-list">
+    {% for comment in post.comments.all %}
+        <div class="comment d-flex align-items-start">
+
+            <a href="{% url 'profile' comment.user.username %}" class="me-2">
+                <img 
+                    src="{{ comment.user.profile.avatar.url }}" 
+                    class="comment-avatar"
+                    alt="{{ comment.user.username }}"
+                >
+            </a>
+            
+            <div class="comment-body">
+                <strong>
+                    <a href="{% url 'profile' comment.user.username %}"
+                        class="text-dark text-decoration-none">
+                        {{ comment.user.username }}
+                    </a>
+                </strong>
+                {{ comment.text }}
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted small">No comments yet...</p>
+    {% endfor %}
+</div>
