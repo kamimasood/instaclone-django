@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'instaclone.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3' }",
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600
     )
     
@@ -132,10 +132,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = BASE_DIR / "staticfiles" 
 STATICFILES_DIRS = []
 if (BASE_DIR / "static").exists():
     STATICFILES_DIRS.append(BASE_DIR / "static")
-STATIC_ROOT = BASE_DIR / "staticfiles" 
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
@@ -148,3 +148,8 @@ AUTH_USER_MODEL = 'accounts.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.herokuapp.com",
+    "https://*.onrender.com",
+]
