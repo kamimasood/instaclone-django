@@ -41,10 +41,6 @@ class Post(models.Model):
             return 'video'
         return None
     
-    def is_liked_by(self, user):
-        """Check if the post is liked by a specific user."""
-        return self.likes.filter(user=user).exists()
-
     def total_likes(self):
         """Return the number of likes the post has received."""
         return self.likes.count()

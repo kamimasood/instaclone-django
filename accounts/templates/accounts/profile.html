@@ -1,96 +1,46 @@
-{% extends 'accounts/base.html' %}
-{% load static %}
+{% extends 'accounts/base.hmtl' %}
 
-{% block title %}{{ profile.user.username }} - Profile{% endblock %}
-
+{% block title %}{{ user.username }} - Profile{% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row mb-4">
+    <h2>{{ user.username }}</h2>
 
-            <!-- Avatar -->
-            <div class="col-4 col-md-3 d-flex justify-content-center">
-                <img src="{{ profile.avatar.url }}" 
-                    class="rounded-circle img-fluid border"
-                    style="width: 150px; height: 150px; object-fit: cover;">
-            </div>
+    <section>
+        <img src="{{ profile.avatar.url }}" alt="{{ user_profile.username }}'s avatar"
+                width="120" height="120">
 
-            <!-- Username, stats, buttons -->
-             <div class="col-8 col-md-9">
+        <h3><strong>{{ profile.get_display_name }}</strong></h3>
 
-                <div class="d-flex align-items-center mb-2">
+        {% if profile.bio %}
+            <p>{{ profile.bio }}</p>
+        {% endif %}
 
-                    <h3 class="me-3">{{ profile.user.username }}</h3>
+        {% if profile.website %}
+            <p><a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></p>
+        {% endif %}
 
-                    {% if is_own_profile %}
-                        <a href="{% url 'edit_profile' %}"
-                            class="btn btn-outline-secondary btn-sm">
-                            Edit Profile
-                        </a>
-                    {% else %}
-                        <div class="d-flex gap-2">
-                            <form method="POST" action="{% url 'toggle_follow' profile.user.username %}">
-                                {% csrf_token %}
-                                {% if is_following %}
-                                    <button class="btn btn-secondary btn-sm">Unfollow</button>
-                                {% else %}
-                                    <button class="btn btn-primary btn-sm">Follow</button>
-                                {% endif %}
-                            </form>
+        <p>
+            <strong>{{ posts_count }}</strong> Posts
+            <strong>{{ followers }}</strong> Followers
+            <strong>{{ followings }}</strong> Followings
+        </p>
 
-                            <a href="{% url 'chats:start_chat' profile.user.username %}"
-                                class="btn btn-outline-secondary btn-sm">
-                                Message
-                            </a>
-                        </div>
-                    {% endif %}
-                </div>
+    </section>
 
-                <!-- Stats -->
-                <div class="d-flex mb-3">
-                    <p class="me-4 mb-0"><strong>{{ post_count }}</strong> posts</p>
-                    <p class="me-4 mb-0">
-                        <a href="{% url 'followers' profile.user.username %}">
-                            <strong>{{ followers }}</strong> followers
-                        </a>
-                    </p>
+    {% if not is_own_profile %}
+        <section>
+            <form method="POST" action="{% url 'toggle_follow' user.username %}">
+                {% csrf_token %}
+                {% if is_following %}
+                    <button type="submit">Unfollow</button>
+                {% else %}
+                    <button type="submit">Follow</button>
+                {% endif %}
+            </form>
+        </section>
+    {% endif %}
 
-                    <p class="me-4 mb-0">
-                        <a href="{% url 'following' profile.user.username %}">
-                            <strong>{{ following }}</strong> following
-                        </a>
-                    </p>
-                </div>
-
-                 <!-- Bio -->
-                <div>
-                    <strong>{{ profile.get_display_name }}</strong><br>
-
-                    {% if profile.bio %}
-                        <p class="mb-1">{{ profile.bio }}</p>
-                    {% endif %}
-
-                    {% if profile.website %}
-                        <a href="{{ profile.website }}" target="_blank">
-                            {{ profile.website }}
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        <div class="row g-1">
-            {% for post in posts %}
-                <div class="col-4">
-                    <a href="{% url 'posts:post_detail' post.id %}">
-                        <img src="{{ post.image.url }}" 
-                        class="img-fluid"
-                        style="width: 100%; height: 100%; object-fit: cover;">
-                    </a>
-                </div>
-            {% empty %}
-                <p class="text-muted text-center mt-5">No posts yet.</p>
-            {% endfor %}
-
-        </div>
-
-    </div>
-{% endblock %}  
+    <footer>
+        <p>&copy; {{ now|date:"Y" }} InstaClone</p>
+    </footer>
+        
+{% endblock %}
