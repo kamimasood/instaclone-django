@@ -21,13 +21,13 @@ from django.conf.urls.static import static
 from posts import views as post_views
 
 urlpatterns = [
-    path('/admin/', admin.site.urls),
-    path('/', post_views.feed, name='home'),
-    path('/accounts/', include('accounts.urls')),
-    path('/posts/', include('posts.urls', namespace='posts')),
-    path('/interactions/', include('interactions.urls')),
-    path('/chats/', include('chats.urls')),
-    path('/notifications/', include('notifications.urls')),
+    path('admin/', admin.site.urls),
+    path('', post_views.feed, name='home'),
+    path('accounts/', include('accounts.urls')),
+    path('posts/', include('posts.urls', namespace='posts')),
+    path('interactions/', include('interactions.urls')),
+    path('chats/', include('chats.urls')),
+    path('notifications/', include('notifications.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
