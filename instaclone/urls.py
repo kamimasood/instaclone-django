@@ -22,7 +22,8 @@ from posts import views as post_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', post_views.feed, name='home'),
+    path('feed/', post_views.feed, name='home'),
+    path('', include('accounts.urls')),
     path('accounts/', include('accounts.urls')),
     path('posts/', include('posts.urls', namespace='posts')),
     path('interactions/', include('interactions.urls')),
