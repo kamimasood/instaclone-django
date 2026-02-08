@@ -1,0 +1,25 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+    <h4 class="mb-3">{{ title }}</h4>
+
+    {% for user in users %}
+        <div class="d-flex align-items-center mb-3">
+            <img src="{{ user.profile.avatar.url }}"
+                class="rounded-circle me-3"
+                width="50" height="50">
+            <div>
+                <a href="{{ user.get_absolute_url }}">
+                    <strong>{{ user.username }}</strong>
+                </a><br>
+                <small class="text-muted">
+                    {{ user.profile.get_display_name }}
+                </small>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">No users found.</p>
+    {% endfor %}
+
+{% endblock %}

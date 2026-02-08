@@ -1,0 +1,88 @@
+{% load static %}
+
+<nav class="navbar navbar-light bg-white border-bottom sticky-top py-2 shadow-sm">
+    <div class="container d-flex justify-content-between align-items-center">
+
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold fs-3" href="{% url 'posts:feed' %}">
+            InstaClone
+        </a>
+
+        <!-- Search Bar -->
+        <form class="d-none d-md-flex flex-grow-1 mx-3 position-relative" method="GET"
+            action="{% url 'search' %}">
+            <input 
+                id="search-input"
+                type="text" 
+                class="form-control rounded-pill px-3 py-1" 
+                placeholder="Search"
+                autocomplete="off"
+            >
+            <div id="search-results" class="search-results position-absolute bg-white border rounded shadow-sm d-none" 
+                style="top: 100%; left: 0; width: 100%; z-index: 1000;"></div>
+        </form>
+
+        <!-- Right Icons -->
+        <div class="d-flex align-items-center">
+
+            <!-- Home -->
+            <a href="{% url 'posts:feed' %}" class="nav-icon mx-2">
+                <i class="bi bi-house-door fs-4"></i>
+            </a>
+
+            <!-- Create Post -->
+            <a href="{% url 'posts:create_post' %}" class="nav-icon mx-2">
+                <i class="bi bi-plus-square fs-4"></i>
+            </a>
+            
+            {% if user.is_authenticated %}
+
+                <!-- Notification Heart -->
+                <a href="{% url 'notifications:list' %}" class="position-relative mx-2 nav-icon">
+                    <i class="bi bi-heart fs-5"></i>
+
+                    {% if unread_notifications %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ unread_notifications }}
+                        </span>
+                    {% endif %}
+                </a>
+
+                <!-- Messages -->
+                <a href="{% url 'chats:inbox' %}" class="position-relative mx-2 nav-icon">
+                    <i class="bi bi-chat fs-5"></i>
+                    {% if unread_messages %}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ unread_messages }}
+                        </span>
+                    {% endif %}
+                </a>
+
+                <!-- Profile -->
+                <a href="{% url 'profile' user.username %}" class="nav-icon mx-2">
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}"
+                            alt="{{ user.username }}"
+                            class="rounded-circle" width="32" height="32">
+                    {% else %}
+                        <img src="{% static 'img/default-avatar.png' %}"
+                            alt="{{ user.username }}"
+                            class="rounded-circle" width="32" height="32">
+                    {% endif %}
+                </a>
+
+                <!-- Logout -->
+                <a href="{% url 'logout' %}" class="nav-icon mx-2 text-danger">
+                    <i class="bi bi-box-arrow-right fs-4"></i>
+                </a>
+
+            {% else %}
+                <!-- Login (shown to guests) -->
+                <a href="{% url 'login' %}" class="nav-icon mx-2">
+                    <i class="bi bi-box-arrow-in-right fs-4"></i>
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+</nav>

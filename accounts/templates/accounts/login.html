@@ -3,20 +3,25 @@
 {% block title %}Log In - InstaClone{% endblock %}
 
 {% block content %}
-    <div class="'auth-box">
-        <h2>Login</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-5">
 
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
+            <div class="card shadow-sm p-4">
+                <h3 class="text-center mb-3">Login</h3>
 
-            <button type="submit" class="btn-primary">Login</button>
-        </form>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
 
-        <p class="auth-switch">
-            Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
-        </p>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
 
+                <p class="text-center mt-3">
+                    Don't have an account? 
+                    <a href="{% url 'signup' %}">Sign up</a>
+                </p>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

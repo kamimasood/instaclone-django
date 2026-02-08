@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 class User(AbstractUser):
@@ -28,7 +29,7 @@ class User(AbstractUser):
 
     def following_count(self):
         """Return the number of following the user has."""
-        return self.followings.count()
+        return self.following.count()
     
     def posts_count(self):
         """
@@ -36,6 +37,9 @@ class User(AbstractUser):
         Work if Post model has User as a foreign key.
         """
         return self.posts.count()
+
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'username': self.username})
 
 class Profile(models.Model):
     """A profile model extending the User."""
